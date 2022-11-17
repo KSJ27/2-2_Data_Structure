@@ -1,11 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
-// dd
+
 class MainFrame extends JFrame{
     MenuBar menubar = new MenuBar();
     ToolBar toolBar = new ToolBar();
     Canvas canvas = new Canvas();
-
 
     public MainFrame() {
         setSize(600,500);
@@ -21,39 +20,7 @@ class MainFrame extends JFrame{
 
 }
 
-class MenuBar extends JMenuBar {
-    JMenu FileMenu = new JMenu("File");
-    JMenuItem NewFileMenu = new JMenuItem("New");
-    JMenuItem OpenFileMenu = new JMenuItem("Open");
-    JMenuItem SaveFileMenu = new JMenuItem("Save");
-    JMenuItem SaveAsFileMenu = new JMenuItem("Save As");
-    JMenuItem ExitMenu = new JMenuItem("Exit");
 
-    JMenu ViewMenu = new JMenu("View");
-    JMenuItem GridMenu = new JMenuItem("Grid");
-    JMenuItem StatusMenu = new JMenuItem("Status Bar");
-    JMenuItem ClearMenu = new JMenuItem("Clear");
-
-    JMenu UndoMenu = new JMenu("Undo");
-    JMenu RedoMenu = new JMenu("Redo");
-
-    public MenuBar() {
-        add(FileMenu);
-        FileMenu.add(NewFileMenu);
-        FileMenu.add(OpenFileMenu);
-        FileMenu.add(SaveFileMenu);
-        FileMenu.add(SaveAsFileMenu);
-        FileMenu.add(ExitMenu);
-
-        add(ViewMenu);
-        ViewMenu.add(GridMenu);
-        ViewMenu.add(StatusMenu);
-        ViewMenu.add(ClearMenu);
-
-        add(UndoMenu);
-        add(RedoMenu);
-    }
-}
 
 class ToolBar extends JToolBar {
     JButton[] buttons = new JButton[12];
@@ -171,16 +138,6 @@ class ToolBar extends JToolBar {
     }
 }
 
-class Canvas extends JPanel {
-    Dimension dim = new Dimension(500,450);
-
-    public Canvas() {
-        setPreferredSize(dim);
-        setBackground(Color.WHITE);
-
-        setVisible(true);
-    }
-}
 
 public class MainTest{
     public static void main(String[] args) {
