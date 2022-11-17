@@ -1,4 +1,4 @@
-# 2-2_Data_Structure
+# GUI
 
 <목표>  
 그림판 구현  
