@@ -186,10 +186,8 @@ public class MainTest{
     public static void main(String[] args) {
         MainFrame f = new MainFrame();
 
-       // new PanelTest("패널 테스트");
+        // new PanelTest("패널 테스트");
 
     }
 }
-
-
 
