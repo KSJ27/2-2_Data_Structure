@@ -1,9 +1,15 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class MenuBar extends JMenuBar implements ActionListener {
+public class MenuBar extends JMenuBar implements ActionListener, MouseListener {
+    Grid grid = new Grid();
+    Graphics g;
+
     JLabel openImage = new JLabel();
     JFileChooser fileChooser = new JFileChooser();
 
@@ -60,7 +66,34 @@ public class MenuBar extends JMenuBar implements ActionListener {
             FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG Images", "jpg");
             fileChooser.setFileFilter(filter);
             //BufferedImage image = new BufferedImage()//canvas 부분만 저장하는 걸 구현해야해서 canvas부터 만들어야함!!
-
         }
+
+
+
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
