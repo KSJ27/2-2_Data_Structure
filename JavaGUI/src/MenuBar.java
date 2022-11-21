@@ -1,3 +1,4 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -5,12 +6,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class MenuBar extends JMenuBar implements ActionListener, MouseListener {
+
     Grid grid = new Grid();
     Graphics g;
 
-    JLabel openImage = new JLabel();
+    JLabel imageLabel = new JLabel();
     JFileChooser fileChooser = new JFileChooser();
 
     JMenu FileMenu = new JMenu("File");
@@ -60,16 +65,58 @@ public class MenuBar extends JMenuBar implements ActionListener, MouseListener {
 
     public void actionPerformed(ActionEvent event) {
 
+        JFileChooser chooser = new JFileChooser();
+
         JMenuItem click = (JMenuItem) event.getSource();
 
-        if(click == NewFileMenu) {
+        if(click == NewFileMenu) { //Todo
             FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG Images", "jpg");
             fileChooser.setFileFilter(filter);
             //BufferedImage image = new BufferedImage()//canvas 부분만 저장하는 걸 구현해야해서 canvas부터 만들어야함!!
         }
 
+        if(click.equals(OpenFileMenu)){
+            // TODO Auto-generated method stub
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("JPG & PNG Images", "jpg", "png");
+            chooser.setFileFilter(filter);
+            int ret = chooser.showOpenDialog(null);
+            if(ret!= JFileChooser.APPROVE_OPTION){
+                JOptionPane.showConfirmDialog(null, "파일을 선택하지 않았습니다.",
+                        "경고",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            String filePath = chooser.getSelectedFile().getPath();
+            imageLabel.setIcon(new ImageIcon(filePath));
+        }
 
+        if(click.equals(OpenFileMenu)){
+            //Todo
+        }
 
+        if(click.equals(SaveAsFileMenu)) {
+            // TODO Auto-generated method stub
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+            chooser.setFileFilter(filter);
+            int ret = chooser.showSaveDialog(null);
+            if (ret == JFileChooser.APPROVE_OPTION) {
+                String filePath = chooser.getSelectedFile().getPath()+".png";
+                File saveFile = new File(filePath);
+                System.out.println(saveFile);
+                BufferedImage newImage = new BufferedImage(imageLabel.getIcon().getIconWidth(), imageLabel.getIcon().getIconHeight(), BufferedImage.TYPE_INT_RGB);
+                Graphics g = newImage.getGraphics();
+                imageLabel.getIcon().paintIcon(null, g, 0, 0);
+                g.dispose();
+                try {
+                    ImageIO.write(newImage, "png", saveFile);
+                }
+                catch (IOException ex) {
+                }
+            }
+        }
+
+        if(click.equals(ExitMenu)) {
+            System.exit(0);
+        }
 
     }
 
