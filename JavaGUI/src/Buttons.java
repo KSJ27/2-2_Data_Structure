@@ -113,13 +113,19 @@ public class Buttons implements MouseListener {
 
     private void setDrawLine() {
         drawLine = true;
+        drawTriangle = false;
+        drawRectangle = false;
         toolBarButtons[5].setBorderPainted(true);
     }
     private void setDrawTriangle() {
+        drawLine = false;
         drawTriangle = true;
+        drawRectangle = false;
         toolBarButtons[6].setBorderPainted(true);
     }
     private void setDrawRectangle() {
+        drawLine = false;
+        drawTriangle = false;
         drawRectangle = true;
         toolBarButtons[7].setBorderPainted(true);
     }

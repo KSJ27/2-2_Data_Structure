@@ -12,6 +12,7 @@ class Canvas extends JPanel {
     MemoryStack stacks = new MemoryStack();
 
     Line2D.Double line;
+    Polygon triangle;
     Rectangle2D.Double rectangle;
 
     Point start, end;
@@ -48,11 +49,13 @@ class Canvas extends JPanel {
                 line = new Line2D.Double(start.x, start.y, end.x, end.y);
                 repaint();
             }
-//            if (Buttons.drawTriangle == true) {
-//                end = event.getPoint();
-//                triangle = new Polygon();
-//                repaint();
-//            }
+            if (Buttons.drawTriangle == true) {
+                end = event.getPoint();
+                int x[] = {start.x, start.x + (end.x - start.x)/2, end.x};
+                int y[] = {end.y, start.y, end.y};
+                triangle = new Polygon(x, y, 3);
+                repaint();
+            }
             if (Buttons.drawRectangle == true) {
                 end = event.getPoint();
                 rectangle = new Rectangle2D.Double(Math.min(start.x, end.x), Math.min(start.y, end.y), Math.abs(start.x - end.x), Math.abs(start.y - end.y));
@@ -68,11 +71,12 @@ class Canvas extends JPanel {
                 setcanvas.end.add(setcanvas.sketch.size()-1);
             }
 
-//            if (Buttons.drawTriangle == true) {
-//                memory.memory.push(line);
+            if (Buttons.drawTriangle == true) {
+                stacks.drawStack.push(null);
 //                memory.colorMemory.push(ColorFrame.color);
 //                memory.thicknessMemory.push(Stroke.thick);
-//            }
+                setcanvas.end.add(setcanvas.sketch.size()-1);
+            }
 
             if(Buttons.drawRectangle == true) {
                 stacks.drawStack.push(rectangle);
@@ -84,11 +88,12 @@ class Canvas extends JPanel {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2 = (Graphics2D)g;
 
         if(Buttons.drawLine == true)
             g2.draw(line);
+        if(Buttons.drawTriangle == true)
+            g2.draw(triangle);
         if(Buttons.drawRectangle == true)
             g2.draw(rectangle);
     }
