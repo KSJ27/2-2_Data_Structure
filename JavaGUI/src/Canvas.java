@@ -8,9 +8,9 @@ import java.awt.geom.Rectangle2D;
 class Canvas extends JPanel {
     Dimension dim = new Dimension(500,450);
 
-    SetCanvas setcanvas = new SetCanvas();
     MemoryStack stacks = new MemoryStack();
 
+    DrawMode drawMode = new DrawMode();
     Line2D.Double line;
     Polygon triangle;
     Rectangle2D.Double rectangle;
@@ -32,6 +32,12 @@ class Canvas extends JPanel {
 
     class MyMouseListener extends MouseAdapter {
         public void mousePressed(MouseEvent event) {
+            if(Buttons.draw == true) {
+                start = event.getPoint();
+                drawMode.sketch.add(start);
+                drawMode.next = drawMode.sketch.size()-1;
+                drawMode.start.add(drawMode.sketch.size()-1);
+            }
             if(Buttons.drawLine == true) {
                 start = event.getPoint();
             }
@@ -44,6 +50,11 @@ class Canvas extends JPanel {
         }
 
         public void mouseDragged(MouseEvent event) {
+            if (Buttons.draw == true) {
+                end = event.getPoint();
+                drawMode.sketch.add(end);
+                repaint();
+            }
             if (Buttons.drawLine == true) {
                 end = event.getPoint();
                 line = new Line2D.Double(start.x, start.y, end.x, end.y);
@@ -68,14 +79,14 @@ class Canvas extends JPanel {
                 stacks.drawStack.push(null);
 //                memory.colorMemory.push(ColorFrame.color);
 //                memory.thicknessMemory.push(Stroke.thick);
-                setcanvas.end.add(setcanvas.sketch.size()-1);
+                //setcanvas.end.add(setcanvas.sketch.size()-1);
             }
 
             if (Buttons.drawTriangle == true) {
                 stacks.drawStack.push(null);
 //                memory.colorMemory.push(ColorFrame.color);
 //                memory.thicknessMemory.push(Stroke.thick);
-                setcanvas.end.add(setcanvas.sketch.size()-1);
+                //setcanvas.end.add(setcanvas.sketch.size()-1);
             }
 
             if(Buttons.drawRectangle == true) {
@@ -90,6 +101,10 @@ class Canvas extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
+        if(Buttons.draw == true) {
+            for (int i = drawMode.next; i < drawMode.sketch.size() -1; i++)
+                g2.drawLine(drawMode.sketch.get(i).x, drawMode.sketch.get(i).y, drawMode.sketch.get(i+1).x, drawMode.sketch.get(i+1).y);
+        }
         if(Buttons.drawLine == true)
             g2.draw(line);
         if(Buttons.drawTriangle == true)

@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class MenuBar extends JMenuBar implements ActionListener, MouseListener {
 
+
+    JLabel openImage = new JLabel();
     Grid grid = new Grid();
     Graphics g;
 
@@ -89,9 +91,6 @@ public class MenuBar extends JMenuBar implements ActionListener, MouseListener {
             imageLabel.setIcon(new ImageIcon(filePath));
         }
 
-        if(click.equals(OpenFileMenu)){
-            //Todo
-        }
 
         if(click.equals(SaveAsFileMenu)) {
             // TODO Auto-generated method stub
@@ -118,6 +117,13 @@ public class MenuBar extends JMenuBar implements ActionListener, MouseListener {
             System.exit(0);
         }
 
+        if(click.equals(UndoMenu)) {
+
+        }
+
+        if(click.equals(RedoMenu)) {
+
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import java.awt.event.MouseListener;
 public class Buttons implements MouseListener {
     JButton[] toolBarButtons = new JButton[12];
 
+    static boolean draw;
     static boolean drawLine;
     static boolean drawTriangle;
     static boolean drawRectangle;
@@ -101,8 +102,7 @@ public class Buttons implements MouseListener {
 //        if (button == toolBarButtons[1]) setSelectMode();
 //        if (button == toolBarButtons[2]) copy();
 //        if (button == toolBarButtons[3]) paste();
-//        if (button == toolBarButtons[4]) setDraw(button);
-//        if (button == toolBarButtons[5]) setDraw(button);
+        if (button == toolBarButtons[4]) setDraw();
         if (button == toolBarButtons[5]) setDrawLine();
         if (button == toolBarButtons[6]) setDrawTriangle();
         if (button == toolBarButtons[7]) setDrawRectangle();
@@ -111,19 +111,30 @@ public class Buttons implements MouseListener {
 //        if (button == toolBarButtons[11]) setEraser(button);
     }
 
+    private void setDraw() {
+        draw = true;
+        drawLine = false;
+        drawTriangle = false;
+        drawRectangle = false;
+        toolBarButtons[4].setBorderPainted(true);
+    }
+
     private void setDrawLine() {
+        draw = false;
         drawLine = true;
         drawTriangle = false;
         drawRectangle = false;
         toolBarButtons[5].setBorderPainted(true);
     }
     private void setDrawTriangle() {
+        draw = false;
         drawLine = false;
         drawTriangle = true;
         drawRectangle = false;
         toolBarButtons[6].setBorderPainted(true);
     }
     private void setDrawRectangle() {
+        draw = false;
         drawLine = false;
         drawTriangle = false;
         drawRectangle = true;
