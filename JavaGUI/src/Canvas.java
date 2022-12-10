@@ -6,17 +6,15 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 class Canvas extends JPanel {
-    Dimension dim = new Dimension(500,450);
+    Dimension dim = new Dimension(1400,800);
 
-    MemoryStack stacks = new MemoryStack();
+    Memory memory = new Memory();
 
-    DrawMode drawMode = new DrawMode();
     Line2D.Double line;
     Polygon triangle;
     Rectangle2D.Double rectangle;
 
     Point start, end;
-
 
     public Canvas() {
         MyMouseListener listener = new MyMouseListener();
@@ -25,34 +23,51 @@ class Canvas extends JPanel {
         addMouseMotionListener(listener);
 
         setPreferredSize(dim);
-        setBackground(Color.WHITE);
+        setBackground(Color.white);
 
         setVisible(true);
     }
 
     class MyMouseListener extends MouseAdapter {
         public void mousePressed(MouseEvent event) {
-            if(Buttons.draw == true) {
+            if(Buttons.draw == true) { //펜 그리기 모드 선택
+                ColorFrame.colorChange = false;
                 start = event.getPoint();
-                drawMode.sketch.add(start);
-                drawMode.next = drawMode.sketch.size()-1;
-                drawMode.start.add(drawMode.sketch.size()-1);
+                memory.sketch.add(start);
+                memory.next = memory.sketch.size()-1;
+                memory.start.add(memory.sketch.size()-1);
             }
-            if(Buttons.drawLine == true) {
+            if(Buttons.drawLine == true) { //선 그리기 모드 선택
+                ColorFrame.colorChange = false;
                 start = event.getPoint();
+//                memory.next = memory.sketch.size()-1;
+//                memory.start.add(memory.sketch.size()-1);
             }
-            if(Buttons.drawTriangle == true) {
+            if(Buttons.drawTriangle == true) { //삼각형 그리기 모드 선택
+                ColorFrame.colorChange = false;
                 start = event.getPoint();
+//                memory.next = memory.sketch.size()-1;
+//                memory.start.add(memory.sketch.size()-1);
             }
-            if(Buttons.drawRectangle == true) {
+            if(Buttons.drawRectangle == true) { //직사각형 그리기 모드 선택
+                ColorFrame.colorChange = false;
                 start = event.getPoint();
+//                memory.next = memory.sketch.size()-1;
+//                memory.start.add(memory.sketch.size()-1);
+            }
+            if(Buttons.eraser == true) { //지우개 모드 선택
+                ColorFrame.colorChange = false;
+                start = event.getPoint();
+                memory.sketch.add(start);
+                memory.next = memory.sketch.size()-1;
+                memory.start.add(memory.sketch.size()-1);
             }
         }
 
         public void mouseDragged(MouseEvent event) {
             if (Buttons.draw == true) {
                 end = event.getPoint();
-                drawMode.sketch.add(end);
+                memory.sketch.add(end);
                 repaint();
             }
             if (Buttons.drawLine == true) {
@@ -72,27 +87,47 @@ class Canvas extends JPanel {
                 rectangle = new Rectangle2D.Double(Math.min(start.x, end.x), Math.min(start.y, end.y), Math.abs(start.x - end.x), Math.abs(start.y - end.y));
                 repaint();
             }
+            if (Buttons.eraser == true) {
+                end = event.getPoint();
+                memory.sketch.add(end);
+                repaint();
+            }
         }
 
         public void mouseReleased(MouseEvent event) {
+            if (Buttons.draw == true) {
+                memory.drawStack.push(null);
+                memory.colorStack.push(ColorFrame.color);
+                memory.thicknessStack.push(Stroke.thick);
+                memory.end.add(memory.sketch.size()-1);
+            }
+
             if (Buttons.drawLine == true) {
-                stacks.drawStack.push(null);
-//                memory.colorMemory.push(ColorFrame.color);
-//                memory.thicknessMemory.push(Stroke.thick);
-                //setcanvas.end.add(setcanvas.sketch.size()-1);
+                memory.drawStack.push(line);
+                memory.colorStack.push(ColorFrame.color);
+                memory.thicknessStack.push(Stroke.thick);
+//                memory.end.add(memory.sketch.size()-1);
             }
 
             if (Buttons.drawTriangle == true) {
-                stacks.drawStack.push(null);
-//                memory.colorMemory.push(ColorFrame.color);
-//                memory.thicknessMemory.push(Stroke.thick);
-                //setcanvas.end.add(setcanvas.sketch.size()-1);
+                memory.drawStack.push(triangle);
+                memory.colorStack.push(ColorFrame.color);
+                memory.thicknessStack.push(Stroke.thick);
+//                memory.end.add(memory.sketch.size()-1);
             }
 
             if(Buttons.drawRectangle == true) {
-                stacks.drawStack.push(rectangle);
-//                memory.colorMemory.push(ColorFrame.color);
-//                memory.thicknessMemory.push(Stroke.thick);
+                memory.drawStack.push(rectangle);
+                memory.colorStack.push(ColorFrame.color);
+                memory.thicknessStack.push(Stroke.thick);
+//                memory.end.add(memory.sketch.size()-1);
+            }
+
+            if(Buttons.eraser == true) {
+                memory.drawStack.push(null);
+                memory.colorStack.push(Color.white);
+                memory.thicknessStack.push(Stroke.thick);
+                memory.end.add(memory.sketch.size()-1);
             }
         }
     }
@@ -101,15 +136,63 @@ class Canvas extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D)g;
 
-        if(Buttons.draw == true) {
-            for (int i = drawMode.next; i < drawMode.sketch.size() -1; i++)
-                g2.drawLine(drawMode.sketch.get(i).x, drawMode.sketch.get(i).y, drawMode.sketch.get(i+1).x, drawMode.sketch.get(i+1).y);
+        if(MenuBar.clearCheck == true) {
+            WhiteBoard clearShape = new WhiteBoard();
+
+            g2.setColor(Color.white);
+            g2.setStroke(new BasicStroke(0));
+            g2.draw(clearShape);
+            memory.drawStack.push(clearShape);
+            memory.colorStack.push(Color.white);
+            memory.thicknessStack.push(0);
+            g2.fill(clearShape);
+            MenuBar.clearCheck = false;
         }
-        if(Buttons.drawLine == true)
-            g2.draw(line);
-        if(Buttons.drawTriangle == true)
-            g2.draw(triangle);
-        if(Buttons.drawRectangle == true)
-            g2.draw(rectangle);
+        else {
+            int sketchNum = 0;
+
+            for(int i = 0; i < memory.drawStack.size(); i++) {
+                g2.setColor(memory.colorStack.get(i));
+                g2.setStroke(new BasicStroke(memory.thicknessStack.get(i)));
+
+                if(memory.drawStack.get(i)  == null) {
+                    for (int j = memory.start.get(sketchNum); j < memory.end.get(sketchNum)-1; j++)
+                        g2.drawLine(memory.sketch.get(j).x, memory.sketch.get(j).y, memory.sketch.get(j+1).x, memory.sketch.get(j+1).y);
+
+                    sketchNum++;
+                }
+                else if(memory.drawStack.get(i).getClass().getSimpleName().equals("WhiteBoard"))
+                    g2.fill((Shape) memory.drawStack.get(i));
+                else
+                    g2.draw((Shape) memory.drawStack.get(i));
+            }
+
+            g2.setColor(ColorFrame.color);
+            g2.setStroke(new BasicStroke(Stroke.thick));
+
+            if(start == null)
+                return;
+
+            if(ColorFrame.colorChange == true) ;
+            else {
+                if(Buttons.draw == true) {
+                    for (int i = memory.next; i < memory.sketch.size() -1; i++)
+                        g2.drawLine(memory.sketch.get(i).x, memory.sketch.get(i).y, memory.sketch.get(i+1).x, memory.sketch.get(i+1).y);
+                }
+                if(Buttons.drawLine == true)
+                    g2.draw(line);
+                if(Buttons.drawTriangle == true)
+                    g2.draw(triangle);
+                if(Buttons.drawRectangle == true)
+                    g2.draw(rectangle);
+
+                if(Buttons.eraser == true) {
+                    g2.setColor(Color.white);
+                    for (int i = memory.next; i < memory.sketch.size() -1; i++)
+                        g2.drawLine(memory.sketch.get(i).x, memory.sketch.get(i).y, memory.sketch.get(i+1).x, memory.sketch.get(i+1).y);
+                }
+            }
+
+        }
     }
 }

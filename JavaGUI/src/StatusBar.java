@@ -1,20 +1,23 @@
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.time.LocalDate;
 
 public class StatusBar extends JPanel {
     boolean statusBarIsTrue = false;
-    //JLabel xlabel = new JLabel();
+    JLabel xlabel = new JLabel();
+    LocalDate now = LocalDate.now();
 
     StatusBar(JFrame frame) {
         setBorder(new BevelBorder(BevelBorder.LOWERED));
         setPreferredSize(new Dimension(frame.getWidth(), 16));
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-        JLabel statusLabel = new JLabel("status");
+        JLabel statusLabel = new JLabel("Today: ");
         statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
         add(statusLabel);
-        //add(xlabel);
+        add(xlabel);
+        xlabel.setText(String.valueOf(now));
     }
 
 //    public void showPointer() { //현재 마우스 포인터 보여주는 설정, 버그 있음

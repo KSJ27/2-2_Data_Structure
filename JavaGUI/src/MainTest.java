@@ -11,7 +11,7 @@ class MainFrame extends JFrame implements ActionListener {
 
 
     public MainFrame() {
-        setSize(600,500);
+        setSize(1400,800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Draw Board");
         menubar.StatusMenu.addActionListener(this);
@@ -21,7 +21,6 @@ class MainFrame extends JFrame implements ActionListener {
         add(toolBar, BorderLayout.NORTH);
         add(canvas);
         add(statusBar, BorderLayout.SOUTH);
-
 
         setVisible(true);
     }

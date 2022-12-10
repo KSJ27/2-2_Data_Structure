@@ -4,12 +4,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class Buttons implements MouseListener {
-    JButton[] toolBarButtons = new JButton[12];
+    static JButton[] toolBarButtons = new JButton[15];
+    Stroke stroke = new Stroke();
+    static CanvasGroup canvas = new CanvasGroup();
 
+    static boolean clear;
     static boolean draw;
     static boolean drawLine;
     static boolean drawTriangle;
     static boolean drawRectangle;
+    static boolean eraser;
 
     Buttons() {
         //icons excepted to line.png: www.flaticon.com
@@ -75,6 +79,16 @@ public class Buttons implements MouseListener {
         Image changeImg11 = img11.getScaledInstance(18, 18, Image.SCALE_SMOOTH);
         ImageIcon changeIcon11 = new ImageIcon(changeImg11);
 
+//        ImageIcon icon12 = new ImageIcon("src/images/undo.png");
+//        Image img12 = icon12.getImage();
+//        Image changeImg12 = img12.getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+//        ImageIcon changeIcon12 = new ImageIcon(changeImg12);
+//
+//        ImageIcon icon13 = new ImageIcon("src/images/redo.png");
+//        Image img13 = icon13.getImage();
+//        Image changeImg13 = img13.getScaledInstance(18, 18, Image.SCALE_SMOOTH);
+//        ImageIcon changeIcon13 = new ImageIcon(changeImg13);
+
 
         toolBarButtons[0] = new JButton(changeIcon0);
         toolBarButtons[1] = new JButton(changeIcon1);
@@ -88,11 +102,24 @@ public class Buttons implements MouseListener {
         toolBarButtons[9] = new JButton(changeIcon9);
         toolBarButtons[10] = new JButton(changeIcon10);
         toolBarButtons[11] = new JButton(changeIcon11);
+        toolBarButtons[12] = new JButton("undo");
+        toolBarButtons[13] = new JButton("redo");
+        toolBarButtons[14] = new JButton("Clear");
+
+        toolBarButtons[12].setBackground(Color.lightGray);
+        toolBarButtons[13].setBackground(Color.lightGray);
+        toolBarButtons[14].setBackground(new Color(240,240,240));
 
         for(int i = 0; i < toolBarButtons.length; i++) {
             toolBarButtons[i].setBorderPainted(false);
+        }
+
+        for(int i = 0; i < 12; i++) {
             toolBarButtons[i].addMouseListener(this);
         }
+
+        toolBarButtons[14].addMouseListener(this);
+
     }
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -108,7 +135,13 @@ public class Buttons implements MouseListener {
         if (button == toolBarButtons[7]) setDrawRectangle();
 //        if (button == toolBarButtons[9]) setFill(button);
 //        if (button == toolBarButtons[10]) setColor(button);
-//        if (button == toolBarButtons[11]) setEraser(button);
+        if (button == toolBarButtons[11]) setEraser();
+//        if (button == toolBarButtons[12]) Undo();
+//        if (button == toolBarButtons[13]) Redo();
+//        if(button == toolBarButtons[14]){
+//            clear = true;
+//            canvas.getSelectedComponent().repaint();
+//        }
     }
 
     private void setDraw() {
@@ -116,7 +149,13 @@ public class Buttons implements MouseListener {
         drawLine = false;
         drawTriangle = false;
         drawRectangle = false;
+        eraser = false;
+
         toolBarButtons[4].setBorderPainted(true);
+        toolBarButtons[5].setBorderPainted(false);
+        toolBarButtons[6].setBorderPainted(false);
+        toolBarButtons[7].setBorderPainted(false);
+        toolBarButtons[11].setBorderPainted(false);
     }
 
     private void setDrawLine() {
@@ -124,22 +163,92 @@ public class Buttons implements MouseListener {
         drawLine = true;
         drawTriangle = false;
         drawRectangle = false;
+        eraser = false;
+
+        toolBarButtons[4].setBorderPainted(false);
         toolBarButtons[5].setBorderPainted(true);
+        toolBarButtons[6].setBorderPainted(false);
+        toolBarButtons[7].setBorderPainted(false);
+        toolBarButtons[11].setBorderPainted(false);
     }
     private void setDrawTriangle() {
         draw = false;
         drawLine = false;
         drawTriangle = true;
         drawRectangle = false;
+        eraser = false;
+
+        toolBarButtons[4].setBorderPainted(false);
+        toolBarButtons[5].setBorderPainted(false);
         toolBarButtons[6].setBorderPainted(true);
+        toolBarButtons[7].setBorderPainted(false);
+        toolBarButtons[11].setBorderPainted(false);
     }
     private void setDrawRectangle() {
         draw = false;
         drawLine = false;
         drawTriangle = false;
         drawRectangle = true;
+        eraser = false;
+
+        toolBarButtons[4].setBorderPainted(false);
+        toolBarButtons[5].setBorderPainted(false);
+        toolBarButtons[6].setBorderPainted(false);
         toolBarButtons[7].setBorderPainted(true);
+        toolBarButtons[11].setBorderPainted(false);
     }
+
+    private void setEraser() {
+        draw = false;
+        drawLine = false;
+        drawTriangle = false;
+        drawRectangle = false;
+        eraser = true;
+
+        toolBarButtons[4].setBorderPainted(false);
+        toolBarButtons[5].setBorderPainted(false);
+        toolBarButtons[6].setBorderPainted(false);
+        toolBarButtons[7].setBorderPainted(false);
+        toolBarButtons[11].setBorderPainted(true);
+    }
+
+    public void Undo() {
+        ColorFrame.colorChange = true;
+
+        if(Memory.drawStack.isEmpty() == true)
+            ;
+        else {
+            if(Memory.drawStack.peek() == null) {
+                Memory.redoStart.push(Memory.start.pop());
+                Memory.redoEnd.push(Memory.end.pop());
+            }
+
+            Memory.redoStack.push(Memory.drawStack.pop());
+            Memory.redoColorStack.push(Memory.colorStack.pop());
+            Memory.redoThicknessStack.push(Memory.thicknessStack.pop());
+
+//            canvas.getSelectedComponent().repaint();
+        }
+    }
+
+    public void Redo() {
+        ColorFrame.colorChange = true;
+
+        if(Memory.redoStack.isEmpty() == true) ;
+        else {
+            if (Memory.redoStack.peek() == null) {
+                Memory.start.push(Memory.redoStart.pop());
+                Memory.end.push(Memory.redoEnd.pop());
+            }
+
+            Memory.drawStack.push(Memory.redoStack.pop());
+            Memory.colorStack.push(Memory.redoColorStack.pop());
+            Memory.thicknessStack.push(Memory.redoThicknessStack.pop());
+
+//            canvas.getSelectedComponent().repaint();
+        }
+    }
+
 
     @Override
     public void mousePressed(MouseEvent e) {
