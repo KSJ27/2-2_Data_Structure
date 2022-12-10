@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 
 class Canvas extends JPanel {
     Dimension dim = new Dimension(1400,800);
-
     Memory memory = new Memory();
 
     Line2D.Double line;
@@ -147,6 +146,7 @@ class Canvas extends JPanel {
             memory.thicknessStack.push(0);
             g2.fill(clearShape);
             MenuBar.clearCheck = false;
+
         }
         else {
             int sketchNum = 0;
@@ -192,7 +192,6 @@ class Canvas extends JPanel {
                         g2.drawLine(memory.sketch.get(i).x, memory.sketch.get(i).y, memory.sketch.get(i+1).x, memory.sketch.get(i+1).y);
                 }
             }
-
         }
     }
 }

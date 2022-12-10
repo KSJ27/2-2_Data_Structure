@@ -27,7 +27,7 @@ class MainFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JMenuItem click = (JMenuItem) e.getSource();
+        Object click = e.getSource();
 
         if(click.equals(menubar.StatusMenu) && statusBar.statusBarIsTrue == true) {
             statusBar.setVisible(false);

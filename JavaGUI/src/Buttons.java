@@ -6,9 +6,9 @@ import java.awt.event.MouseListener;
 public class Buttons implements MouseListener {
     static JButton[] toolBarButtons = new JButton[15];
     Stroke stroke = new Stroke();
-    static CanvasGroup canvas = new CanvasGroup();
+//    static CanvasGroup canvas = new CanvasGroup();
 
-    static boolean clear;
+    static boolean mouseMode;
     static boolean draw;
     static boolean drawLine;
     static boolean drawTriangle;
@@ -125,7 +125,7 @@ public class Buttons implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         JButton button = (JButton)e.getSource();
 
-//        if (button == toolBarButtons[0]) setMouseMode();
+        if (button == toolBarButtons[0]) setMouseMode();
 //        if (button == toolBarButtons[1]) setSelectMode();
 //        if (button == toolBarButtons[2]) copy();
 //        if (button == toolBarButtons[3]) paste();
@@ -136,12 +136,23 @@ public class Buttons implements MouseListener {
 //        if (button == toolBarButtons[9]) setFill(button);
 //        if (button == toolBarButtons[10]) setColor(button);
         if (button == toolBarButtons[11]) setEraser();
-//        if (button == toolBarButtons[12]) Undo();
-//        if (button == toolBarButtons[13]) Redo();
-//        if(button == toolBarButtons[14]){
-//            clear = true;
-//            canvas.getSelectedComponent().repaint();
-//        }
+        if (button == toolBarButtons[12]) Undo();
+        if (button == toolBarButtons[13]) Redo();
+//        if (button == toolBarButtons[14]) Clear();
+    }
+
+    private void setMouseMode() {
+        draw = false;
+        drawLine = false;
+        drawTriangle = false;
+        drawRectangle = false;
+        eraser = false;
+
+        toolBarButtons[4].setBorderPainted(false);
+        toolBarButtons[5].setBorderPainted(false);
+        toolBarButtons[6].setBorderPainted(false);
+        toolBarButtons[7].setBorderPainted(false);
+        toolBarButtons[11].setBorderPainted(false);
     }
 
     private void setDraw() {
@@ -227,7 +238,6 @@ public class Buttons implements MouseListener {
             Memory.redoColorStack.push(Memory.colorStack.pop());
             Memory.redoThicknessStack.push(Memory.thicknessStack.pop());
 
-//            canvas.getSelectedComponent().repaint();
         }
     }
 
@@ -245,8 +255,8 @@ public class Buttons implements MouseListener {
             Memory.colorStack.push(Memory.redoColorStack.pop());
             Memory.thicknessStack.push(Memory.redoThicknessStack.pop());
 
-//            canvas.getSelectedComponent().repaint();
         }
+
     }
 
 
