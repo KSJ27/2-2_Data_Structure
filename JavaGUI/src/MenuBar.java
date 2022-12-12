@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class MenuBar extends JMenuBar implements ActionListener, MouseListener {
     static boolean clearCheck = false;
-//    static CanvasGroup canvas = new CanvasGroup();
+    //    static CanvasGroup canvas = new CanvasGroup();
     Buttons buttons = new Buttons();
 
     JLabel openImage = new JLabel();

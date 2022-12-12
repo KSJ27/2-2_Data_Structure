@@ -134,10 +134,12 @@ public class Buttons implements MouseListener {
         if (button == toolBarButtons[6]) setDrawTriangle();
         if (button == toolBarButtons[7]) setDrawRectangle();
 //        if (button == toolBarButtons[9]) setFill(button);
-//        if (button == toolBarButtons[10]) setColor(button);
+        if (button == toolBarButtons[10]) {
+            ColorFrame colorFrame = new ColorFrame();
+        }
         if (button == toolBarButtons[11]) setEraser();
-        if (button == toolBarButtons[12]) Undo();
-        if (button == toolBarButtons[13]) Redo();
+//        if (button == toolBarButtons[12]) Undo();
+//        if (button == toolBarButtons[13]) Redo();
 //        if (button == toolBarButtons[14]) Clear();
     }
 
@@ -182,6 +184,7 @@ public class Buttons implements MouseListener {
         toolBarButtons[7].setBorderPainted(false);
         toolBarButtons[11].setBorderPainted(false);
     }
+
     private void setDrawTriangle() {
         draw = false;
         drawLine = false;
@@ -195,6 +198,7 @@ public class Buttons implements MouseListener {
         toolBarButtons[7].setBorderPainted(false);
         toolBarButtons[11].setBorderPainted(false);
     }
+
     private void setDrawRectangle() {
         draw = false;
         drawLine = false;
@@ -224,7 +228,8 @@ public class Buttons implements MouseListener {
     }
 
     public void Undo() {
-        ColorFrame.colorChange = true;
+
+        ColorFrame.colorChange = false;
 
         if(Memory.drawStack.isEmpty() == true)
             ;

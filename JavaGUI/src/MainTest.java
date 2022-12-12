@@ -16,7 +16,6 @@ class MainFrame extends JFrame implements ActionListener {
         setTitle("Draw Board");
         menubar.StatusMenu.addActionListener(this);
         statusBar.setVisible(false);
-
         setJMenuBar(menubar);
         add(toolBar, BorderLayout.NORTH);
         add(canvas);
@@ -29,6 +28,17 @@ class MainFrame extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object click = e.getSource();
 
+        if(click.equals(toolBar.buttons.toolBarButtons[12])) {
+            this.toolBar.buttons.Undo();
+            canvas.repaint();
+        }
+        if(click.equals(toolBar.buttons.toolBarButtons[13])) {
+            this.toolBar.buttons.Redo();
+            canvas.repaint();
+        }
+        if(click.equals(menubar.ClearMenu)) {
+            canvas.repaint();
+        }
         if(click.equals(menubar.StatusMenu) && statusBar.statusBarIsTrue == true) {
             statusBar.setVisible(false);
             statusBar.statusBarIsTrue = false;

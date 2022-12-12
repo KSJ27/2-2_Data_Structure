@@ -12,7 +12,7 @@ public class ColorFrame extends JFrame implements ChangeListener{
     static boolean colorChange;
 
     ColorFrame() {
-        setTitle("색상");
+        setTitle("Color");
         setLocation(400, 200);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 

@@ -39,20 +39,14 @@ class Canvas extends JPanel {
             if(Buttons.drawLine == true) { //선 그리기 모드 선택
                 ColorFrame.colorChange = false;
                 start = event.getPoint();
-//                memory.next = memory.sketch.size()-1;
-//                memory.start.add(memory.sketch.size()-1);
             }
             if(Buttons.drawTriangle == true) { //삼각형 그리기 모드 선택
                 ColorFrame.colorChange = false;
                 start = event.getPoint();
-//                memory.next = memory.sketch.size()-1;
-//                memory.start.add(memory.sketch.size()-1);
             }
             if(Buttons.drawRectangle == true) { //직사각형 그리기 모드 선택
                 ColorFrame.colorChange = false;
                 start = event.getPoint();
-//                memory.next = memory.sketch.size()-1;
-//                memory.start.add(memory.sketch.size()-1);
             }
             if(Buttons.eraser == true) { //지우개 모드 선택
                 ColorFrame.colorChange = false;
@@ -96,30 +90,27 @@ class Canvas extends JPanel {
         public void mouseReleased(MouseEvent event) {
             if (Buttons.draw == true) {
                 memory.drawStack.push(null);
-                memory.colorStack.push(ColorFrame.color);
+                memory.colorStack.push(Color.black);
                 memory.thicknessStack.push(Stroke.thick);
                 memory.end.add(memory.sketch.size()-1);
             }
 
             if (Buttons.drawLine == true) {
                 memory.drawStack.push(line);
-                memory.colorStack.push(ColorFrame.color);
+                memory.colorStack.push(Color.black);
                 memory.thicknessStack.push(Stroke.thick);
-//                memory.end.add(memory.sketch.size()-1);
             }
 
             if (Buttons.drawTriangle == true) {
                 memory.drawStack.push(triangle);
-                memory.colorStack.push(ColorFrame.color);
+                memory.colorStack.push(Color.black);
                 memory.thicknessStack.push(Stroke.thick);
-//                memory.end.add(memory.sketch.size()-1);
             }
 
             if(Buttons.drawRectangle == true) {
                 memory.drawStack.push(rectangle);
-                memory.colorStack.push(ColorFrame.color);
+                memory.colorStack.push(Color.black);
                 memory.thicknessStack.push(Stroke.thick);
-//                memory.end.add(memory.sketch.size()-1);
             }
 
             if(Buttons.eraser == true) {
@@ -167,7 +158,7 @@ class Canvas extends JPanel {
                     g2.draw((Shape) memory.drawStack.get(i));
             }
 
-            g2.setColor(ColorFrame.color);
+            g2.setColor(Color.black);
             g2.setStroke(new BasicStroke(Stroke.thick));
 
             if(start == null)
@@ -185,7 +176,6 @@ class Canvas extends JPanel {
                     g2.draw(triangle);
                 if(Buttons.drawRectangle == true)
                     g2.draw(rectangle);
-
                 if(Buttons.eraser == true) {
                     g2.setColor(Color.white);
                     for (int i = memory.next; i < memory.sketch.size() -1; i++)
