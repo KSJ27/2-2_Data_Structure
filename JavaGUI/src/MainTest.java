@@ -30,15 +30,16 @@ class MainFrame extends JFrame implements ActionListener {
 
         if(click.equals(toolBar.buttons.toolBarButtons[12])) {
             this.toolBar.buttons.Undo();
-            canvas.repaint();
+            this.canvas.repaint();
         }
         if(click.equals(toolBar.buttons.toolBarButtons[13])) {
             this.toolBar.buttons.Redo();
-            canvas.repaint();
+            this.canvas.repaint();
         }
         if(click.equals(menubar.ClearMenu)) {
             canvas.repaint();
         }
+
         if(click.equals(menubar.StatusMenu) && statusBar.statusBarIsTrue == true) {
             statusBar.setVisible(false);
             statusBar.statusBarIsTrue = false;

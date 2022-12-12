@@ -5,13 +5,15 @@ import java.util.Vector;
 public class Memory {
     static int next;
 
-    //그린 개체들의 스택
-    static Stack<Object> drawStack = new Stack<>();
+    //네모 세모 선 개체들의 스택
+    static Stack<Shape> drawStack = new Stack<>();
     static Stack<Color> colorStack = new Stack<>();
     static Stack<Integer> thicknessStack = new Stack<>();
 
+    static Stack<Object> penStack = new Stack<>();
+
     //그린 개체들의 redo를 위한 스택
-    static Stack<Object> redoStack = new Stack<>();
+    static Stack<Shape> redoStack = new Stack<>();
     static Stack<Color> redoColorStack = new Stack<>();
     static Stack<Integer> redoThicknessStack = new Stack<>();
 
@@ -23,5 +25,8 @@ public class Memory {
     //draw 모드와 eraser 모드 위한 redo 스택
     static Stack<Integer> redoStart = new Stack<>();
     static Stack<Integer> redoEnd = new Stack<>();
+
+    static Stack<Shape> cutdrawStack = new Stack<>();
+    static Stack<Integer> cutThicknessStack = new Stack<>();
 
 }

@@ -9,11 +9,15 @@ public class Buttons implements MouseListener {
 //    static CanvasGroup canvas = new CanvasGroup();
 
     static boolean mouseMode;
+    static boolean selectMode;
+    static boolean cutCheck;
+    static boolean pasteCheck;
     static boolean draw;
     static boolean drawLine;
     static boolean drawTriangle;
     static boolean drawRectangle;
     static boolean eraser;
+    static boolean fillCheck;
 
     Buttons() {
         //icons excepted to line.png: www.flaticon.com
@@ -126,14 +130,14 @@ public class Buttons implements MouseListener {
         JButton button = (JButton)e.getSource();
 
         if (button == toolBarButtons[0]) setMouseMode();
-//        if (button == toolBarButtons[1]) setSelectMode();
-//        if (button == toolBarButtons[2]) copy();
-//        if (button == toolBarButtons[3]) paste();
+        if (button == toolBarButtons[1]) setSelectMode();
+        if (button == toolBarButtons[2]) cutCheck = true;
+        if (button == toolBarButtons[3]) pasteCheck = true;
         if (button == toolBarButtons[4]) setDraw();
         if (button == toolBarButtons[5]) setDrawLine();
         if (button == toolBarButtons[6]) setDrawTriangle();
         if (button == toolBarButtons[7]) setDrawRectangle();
-//        if (button == toolBarButtons[9]) setFill(button);
+        if (button == toolBarButtons[9]) fillCheck = true;
         if (button == toolBarButtons[10]) {
             ColorFrame colorFrame = new ColorFrame();
         }
@@ -144,6 +148,28 @@ public class Buttons implements MouseListener {
     }
 
     private void setMouseMode() {
+        mouseMode = true;
+        cutCheck = false;
+        pasteCheck = false;
+        selectMode = false;
+        draw = false;
+        drawLine = false;
+        drawTriangle = false;
+        drawRectangle = false;
+        eraser = false;
+
+        toolBarButtons[4].setBorderPainted(false);
+        toolBarButtons[5].setBorderPainted(false);
+        toolBarButtons[6].setBorderPainted(false);
+        toolBarButtons[7].setBorderPainted(false);
+        toolBarButtons[11].setBorderPainted(false);
+    }
+
+    private void setSelectMode() {
+        mouseMode = false;
+        cutCheck = false;
+        pasteCheck = false;
+        selectMode = true;
         draw = false;
         drawLine = false;
         drawTriangle = false;
@@ -158,6 +184,10 @@ public class Buttons implements MouseListener {
     }
 
     private void setDraw() {
+        mouseMode = false;
+        cutCheck = false;
+        pasteCheck = false;
+        selectMode = false;
         draw = true;
         drawLine = false;
         drawTriangle = false;
@@ -172,6 +202,10 @@ public class Buttons implements MouseListener {
     }
 
     private void setDrawLine() {
+        cutCheck = false;
+        pasteCheck = false;
+        mouseMode = false;
+        selectMode = false;
         draw = false;
         drawLine = true;
         drawTriangle = false;
@@ -186,6 +220,10 @@ public class Buttons implements MouseListener {
     }
 
     private void setDrawTriangle() {
+        cutCheck = false;
+        pasteCheck = false;
+        mouseMode = false;
+        selectMode = false;
         draw = false;
         drawLine = false;
         drawTriangle = true;
@@ -200,6 +238,10 @@ public class Buttons implements MouseListener {
     }
 
     private void setDrawRectangle() {
+        cutCheck = false;
+        pasteCheck = false;
+        mouseMode = false;
+        selectMode = false;
         draw = false;
         drawLine = false;
         drawTriangle = false;
@@ -214,6 +256,10 @@ public class Buttons implements MouseListener {
     }
 
     private void setEraser() {
+        cutCheck = false;
+        pasteCheck = false;
+        mouseMode = false;
+        selectMode = false;
         draw = false;
         drawLine = false;
         drawTriangle = false;
@@ -247,6 +293,7 @@ public class Buttons implements MouseListener {
     }
 
     public void Redo() {
+
         ColorFrame.colorChange = true;
 
         if(Memory.redoStack.isEmpty() == true) ;
